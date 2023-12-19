@@ -73,7 +73,10 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AMyPawn::Fire(const FInputActionValue& Value)
 {
-	//GetWorld()->SpawnActor<>
+	if (RocketTemplate)
+	{
+		GetWorld()->SpawnActor<AActor>(RocketTemplate, Arrow->GetComponentTransform());
+	}
 }
 
 void AMyPawn::PitchAndRoll(const FInputActionValue& Value)
@@ -89,5 +92,10 @@ void AMyPawn::PitchAndRoll(const FInputActionValue& Value)
 			RotationValue.X)
 		);
 	}
+}
+
+void AMyPawn::PrintNumber()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%d"), FMath::RandRange(0, 100));
 }
 

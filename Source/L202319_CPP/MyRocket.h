@@ -36,4 +36,15 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, visibleAnywhere, Category = "Component")
 	TObjectPtr<UProjectileMovementComponent> Movement;
+
+	UFUNCTION()
+	void ProcessActorBeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void CPPToCallBP(int64 Damage);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void ExistCPPToCallBP(int64 Damage);
+	void ExistCPPToCallBP_Implementation(int64 Damage);
+	
 };

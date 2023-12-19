@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 
 #include "InputActionValue.h"	
+#include "MyRocket.h"
 
 #include "MyPawn.generated.h"
 
@@ -18,6 +19,8 @@ class UCameraComponent;
 class UInputAction;
 
 
+//형렬이가 옆에 있을때 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FActorBanjangSignature, AActor, OnBanjangOverlap, AActor*, OverlappedActor);
 
 UCLASS()
 class L202319_CPP_API AMyPawn : public APawn
@@ -27,6 +30,8 @@ class L202319_CPP_API AMyPawn : public APawn
 public:
 	// Sets default values for this pawn's properties
 	AMyPawn();
+
+	FActorBanjangSignature OnBanjangOverlap;
 
 protected:
 	// Called when the game starts or when spawned
@@ -64,7 +69,7 @@ public:
 	TObjectPtr<UFloatingPawnMovement> Movement;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Data")
-	TSubclassOf<AActor> RocketTemplate;
+	TSubclassOf<AMyRocket> RocketTemplate;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Data")
 	TObjectPtr<UInputAction> FireAction;
@@ -75,5 +80,8 @@ public:
 	void Fire(const FInputActionValue& Value);
 
 	void PitchAndRoll(const FInputActionValue& Value);
+
+	UFUNCTION(BlueprintCallable)
+	void PrintNumber();
 
 };
