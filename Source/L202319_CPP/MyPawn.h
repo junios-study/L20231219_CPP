@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+
+#include "InputActionValue.h"	
+
 #include "MyPawn.generated.h"
 
 class UStaticMeshComponent;
@@ -12,6 +15,8 @@ class UFloatingPawnMovement;
 class UBoxComponent;
 class USpringArmComponent;
 class UCameraComponent;
+class UInputAction;
+
 
 
 UCLASS()
@@ -60,5 +65,15 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Data")
 	TSubclassOf<AActor> RocketTemplate;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Data")
+	TObjectPtr<UInputAction> FireAction;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Data")
+	TObjectPtr<UInputAction> PitchAndRollAction;
+
+	void Fire(const FInputActionValue& Value);
+
+	void PitchAndRoll(const FInputActionValue& Value);
 
 };

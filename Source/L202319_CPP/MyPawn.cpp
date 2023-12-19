@@ -10,7 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMyPawn::AMyPawn()
@@ -61,5 +61,33 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	if (EIC && FireAction && PitchAndRollAction)
+	{
+		EIC->BindAction(FireAction, ETriggerEvent::Triggered, this, &AMyPawn::Fire);
+		EIC->BindAction(PitchAndRollAction, ETriggerEvent::Triggered, this, &AMyPawn::PitchAndRoll);
+	}
+
+
+}
+
+void AMyPawn::Fire(const FInputActionValue& Value)
+{
+	//GetWorld()->SpawnActor<>
+}
+
+void AMyPawn::PitchAndRoll(const FInputActionValue& Value)
+{
+	FVector2D RotationValue = Value.Get<FVector2D>();
+
+	if (!RotationValue.IsZero())
+	{
+		RotationValue = RotationValue * UGameplayStatics::GetWorldDeltaSeconds(GetWorld()) * 60.0f;
+
+		AddActorLocalRotation(FRotator(RotationValue.Y,
+			0,
+			RotationValue.X)
+		);
+	}
 }
 
